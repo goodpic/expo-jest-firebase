@@ -1,5 +1,5 @@
 import * as firebase from 'firebase'
-// import '@firebase/auth'
+import '@firebase/auth'
 import { firebaseConfig } from '../../config/firebase'
 
 describe('UseProduct', () => {
@@ -10,6 +10,7 @@ describe('UseProduct', () => {
   })
 
   test('fetchProduct', async () => {
+    expect(true).toEqual(true)
     try {
       const defaultAuth = firebase.auth()
     } catch (e) {
