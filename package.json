@@ -5,11 +5,16 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "npm run jest",
+    "tslint": "tslint --project .",
+    "tsc-test": "tsc --project . --noEmit",
+    "jest": "jest --watch"
   },
   "dependencies": {
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
+    "firebase": "^7.17.1",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
@@ -17,6 +22,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@types/jest": "^26.0.7",
     "@types/react": "~16.9.41",
     "@types/react-native": "~0.62.13",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
