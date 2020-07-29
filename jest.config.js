@@ -1,5 +1,9 @@
 module.exports = {
-  "preset": "jest-expo",
+  "preset": "react-native",
+  // "projects": [
+  //   { "preset": "jest-expo/node" }, // works
+  //   { "preset": "jest-expo/ios"}    // error
+  // ],
   "setupFiles": [
     "<rootDir>/setup-tests.js"
   ],
