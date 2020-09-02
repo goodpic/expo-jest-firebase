@@ -1,31 +1,33 @@
 import { useReducer } from 'react'
-import { FormActionType, FormProps, FormStateType } from './types'
+import { FormActionType, FormProps, FormStateType, InputType } from './types'
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
 
 const formReducer = (state: any, action: FormActionType) => {
-  if (action.type === FORM_INPUT_UPDATE) {
+  const { error, isValid, key, type, value } = action
+  if (type === FORM_INPUT_UPDATE) {
     const updatedValidity = {
       ...state.validated,
-      [action.id]: action.isValid,
+      [key]: isValid,
     }
     return {
       values: {
         ...state.values,
-        [action.id]: action.value,
+        [key]: value,
       },
       errors: {
         ...state.updatedErrors,
-        [action.id]: action.error || '',
+        [key]: error || '',
       },
       validity: updatedValidity,
-      formIsValid: Object.values(updatedValidity).some((isValid) => isValid === false)
+      formIsValid: Object.values(updatedValidity).some((valid) => valid === false)
     }
   }
   return state
 }
 
 const useFormState = (props: FormProps) => {
+  const { inputs } = props
   const defaultState: FormStateType = {
     values: {},
     validity: {},
@@ -34,7 +36,7 @@ const useFormState = (props: FormProps) => {
     formIsUpdated: false,
   }
 
-  for (const input of props.inputs) {
+  for (const input of inputs) {
     defaultState.values[input.key] = input.default ? input.default : ''
     defaultState.validity[input.key] = true
     defaultState.errors[input.key] = ''
@@ -42,14 +44,13 @@ const useFormState = (props: FormProps) => {
 
   const [formState, dispatchFormState]: [any, any] = useReducer<any>(formReducer, defaultState)
 
-  const validateHandler = (id: string, text: string) => {
+  const validateHandler = (text: string, input: InputType) => {
     let isValid = false
-    console.log(id)
-    console.log(text)
+    console.log(input)
     dispatchFormState({
       type: FORM_INPUT_UPDATE,
       value: text,
-      id,
+      key: input.key,
       isValid,
     })
   }

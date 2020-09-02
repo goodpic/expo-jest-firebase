@@ -1,25 +1,25 @@
 import * as React from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { InputType } from './types'
 
 type InputProps = {
-  id: string
+  input: InputType
   error: string
-  label: string
   value: string
   isValid: boolean
-  validateHandler: (id: string, text: string) => void
+  validateHandler: (text: string, input: InputType) => void
 }
 
 const ValidatedInput = (props: InputProps) => {
-  const { id, label, value, validateHandler } = props
+  const { input, value, validateHandler } = props
 
   return (
-    <View key={id} style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+    <View key={input.key} style={styles.container}>
+      <Text style={styles.label}>{input.label}</Text>
       <TextInput
         autoCorrect={false}
         autoCapitalize='none'
-        onChangeText={(text: string) => validateHandler(id, text)}
+        onChangeText={(text: string) => validateHandler(text, input)}
         style={styles.input}
         value={value}
       />

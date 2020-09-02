@@ -1,5 +1,5 @@
 type FormActionType = {
-  id: string
+  key: string
   isValid: boolean
   type: string
   value: string
