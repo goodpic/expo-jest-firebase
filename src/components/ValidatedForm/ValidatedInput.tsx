@@ -3,8 +3,10 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 
 type InputProps = {
   id: string
+  error: string
   label: string
   value: string
+  isValid: boolean
   validateHandler: (id: string, text: string) => void
 }
 
@@ -21,6 +23,7 @@ const ValidatedInput = (props: InputProps) => {
         style={styles.input}
         value={value}
       />
+      {!props.isValid && <Text>{props.error}</Text>}
     </View>
   )
 }

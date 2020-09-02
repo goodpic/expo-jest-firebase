@@ -2,20 +2,23 @@ import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native'
 import { ValidatedForm } from '../components/ValidatedForm/'
+import { InputType } from '../components/ValidatedForm/types'
 
 const AuthScreen = () => {
-  const inputs = [
+  const inputs: InputType[] = [
     {
       key: 'id',
       label: 'User ID',
       type: 'string',
       validate: 'alphanumeric',
       required: true,
+      maxLength: 20,
     },
     {
       key: 'password',
       label: 'Password',
       type: 'password',
+      minLength: 6,
       validate: 'regex',
       regex: '/^[a-zA-Z0-9_]+$/'
     },
@@ -23,7 +26,7 @@ const AuthScreen = () => {
       key: 'age',
       label: 'Age',
       type: 'number',
-      validate: 'numeric',
+      validate: 'integer',
     }
   ]
   return(

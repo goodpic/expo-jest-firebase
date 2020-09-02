@@ -7,7 +7,7 @@ import { useFormState } from './useFormState'
 const ValidatedForm = (props: FormProps) => {
 
   const [formState, validateHandler] = useFormState(props)
-  console.log(formState);
+  // console.log(formState);
 
   return (
     <View>
@@ -19,6 +19,8 @@ const ValidatedForm = (props: FormProps) => {
             label={input.label}
             value={formState.values[input.key]}
             validateHandler={validateHandler}
+            error={formState.errors[input.key]}
+            isValid={formState.validity[input.key]}
           />
         ))
       }

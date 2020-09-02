@@ -5,6 +5,9 @@ type FormStateType = {
   validity: {
     [key: string]: boolean,
   },
+  errors: {
+    [key: string]: string,
+  },
   formIsValid: boolean,
   formIsUpdated: boolean,
 }

@@ -3,6 +3,7 @@ type FormActionType = {
   isValid: boolean
   type: string
   value: string
+  error?: string
 }
 
 export { FormActionType }
