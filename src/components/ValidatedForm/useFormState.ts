@@ -26,30 +26,26 @@ function formReducer (state: any, action: FormActionType) {
   return state
 }
 
-// function defaultState(acc = {}, ) {
-
-// }
-
-const useFormState = (props: FormProps) => {
-  const { inputs } = props
-  const defaultState: FormStateType = {
-    inputs: {},
+function defaultState(inputs: InputType[]): FormStateType {
+  return {
+    inputs: inputs.reduce((acc, input) => {
+      return {
+        ...acc,
+        [input.key]: {
+          value: input.default ? input.default : '',
+          isValid: true,
+          error: ''
+        }
+      }
+    }, {}),
     formIsValid: true,
     formIsUpdated: false,
   }
+}
 
-  defaultState.inputs = inputs.reduce((acc, input) => {
-    return {
-      ...acc,
-      [input.key]: {
-        value: input.default ? input.default : '',
-        isValid: true,
-        error: ''
-      }
-    }
-  }, {})
-
-  const [formState, dispatchFormState]: [any, any] = useReducer<any>(formReducer, defaultState)
+const useFormState = (props: FormProps) => {
+  const [formState, dispatchFormState]: [any, any]
+    = useReducer<any>(formReducer, defaultState(props.inputs))
 
   const validateHandler = (text: string, input: InputType) => {
     let isValid = false
