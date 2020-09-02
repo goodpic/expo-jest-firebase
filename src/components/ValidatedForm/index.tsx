@@ -15,11 +15,9 @@ const ValidatedForm = (props: FormProps) => {
         props.inputs.map((input) => (
           <ValidatedInput
             input={input}
+            state={formState.inputs[input.key]}
             key={input.key}
-            value={formState.values[input.key]}
             validateHandler={validateHandler}
-            error={formState.errors[input.key]}
-            isValid={formState.validity[input.key]}
           />
         ))
       }

@@ -1,15 +1,15 @@
+type FormStateInputType = {
+  value: string,
+  isValid: boolean,
+  error: string,
+}
+
 type FormStateType = {
-  values: {
-    [key: string]: string,
-  },
-  validity: {
-    [key: string]: boolean,
-  },
-  errors: {
-    [key: string]: string,
-  },
+  inputs: {
+    [key: string]: FormStateInputType
+  }
   formIsValid: boolean,
   formIsUpdated: boolean,
 }
 
-export { FormStateType }
+export { FormStateType, FormStateInputType }

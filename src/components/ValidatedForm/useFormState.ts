@@ -3,44 +3,51 @@ import { FormActionType, FormProps, FormStateType, InputType } from './types'
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
 
-const formReducer = (state: any, action: FormActionType) => {
+function formReducer (state: any, action: FormActionType) {
   const { error, isValid, key, type, value } = action
   if (type === FORM_INPUT_UPDATE) {
-    const updatedValidity = {
-      ...state.validated,
-      [key]: isValid,
+    const updated: FormStateType = {
+      inputs: {
+        ...state.inputs,
+        [key]: {
+          value,
+          isValid,
+          error: error || '',
+        }
+      },
+      formIsUpdated: true,
+      formIsValid: true,
     }
     return {
-      values: {
-        ...state.values,
-        [key]: value,
-      },
-      errors: {
-        ...state.updatedErrors,
-        [key]: error || '',
-      },
-      validity: updatedValidity,
-      formIsValid: Object.values(updatedValidity).some((valid) => valid === false)
+      ...updated,
+      formIsValid: Object.values(updated.inputs).every((input) => input.isValid)
     }
   }
   return state
 }
 
+// function defaultState(acc = {}, ) {
+
+// }
+
 const useFormState = (props: FormProps) => {
   const { inputs } = props
   const defaultState: FormStateType = {
-    values: {},
-    validity: {},
-    errors: {},
+    inputs: {},
     formIsValid: true,
     formIsUpdated: false,
   }
 
-  for (const input of inputs) {
-    defaultState.values[input.key] = input.default ? input.default : ''
-    defaultState.validity[input.key] = true
-    defaultState.errors[input.key] = ''
-  }
+  defaultState.inputs = inputs.reduce((acc, input) => {
+    return {
+      ...acc,
+      [input.key]: {
+        value: input.default ? input.default : '',
+        isValid: true,
+        error: ''
+      }
+    }
+  }, {})
 
   const [formState, dispatchFormState]: [any, any] = useReducer<any>(formReducer, defaultState)
 
