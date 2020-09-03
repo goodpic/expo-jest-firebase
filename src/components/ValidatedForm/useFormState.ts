@@ -49,12 +49,12 @@ const useFormState = (props: FormProps) => {
     = useReducer<any>(formReducer, defaultState(props.inputs))
 
   const validateHandler = (text: string, input: InputType) => {
-    const { isValid } = validateInput(text, input)
+    const { isValid, error } = validateInput(text, input)
     dispatchFormState({
       type: FORM_INPUT_UPDATE,
       value: text,
       key: input.key,
-      error: '',
+      error,
       isValid,
     })
   }

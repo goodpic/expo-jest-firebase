@@ -7,7 +7,6 @@ import { useFormState } from './useFormState'
 const ValidatedForm = (props: FormProps) => {
 
   const [formState, validateHandler] = useFormState(props)
-  // console.log(formState);
 
   return (
     <View>

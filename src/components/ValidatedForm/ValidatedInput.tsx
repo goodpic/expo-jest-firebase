@@ -21,7 +21,7 @@ const ValidatedInput = (props: InputProps) => {
         style={styles.input}
         value={state.value}
       />
-      {!state.isValid && <Text>{state.error}</Text>}
+      {!state.isValid && <Text style={styles.error}>{state.error}</Text>}
     </View>
   )
 }
@@ -32,13 +32,18 @@ const styles = StyleSheet.create({
     height: 80,
   },
   label: {
-    height: 24,
-    fontSize: 18,
+    height: 20,
+    fontSize: 16,
+  },
+  error: {
+    height: 20,
+    fontSize: 14,
+    color: 'red',
   },
   input: {
     borderWidth: 1,
     borderColor: 'grey',
-    height: 50,
+    height: 40,
     width: 200,
   }
 })
