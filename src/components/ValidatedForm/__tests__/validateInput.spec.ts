@@ -1,15 +1,37 @@
-import { validateInput } from '../useFormState'
+import { validateInput } from '../validateInput'
 
 describe('validateInput', () => {
-  test('validates string', () => {
-    const result = validateInput('test', {
-      "key": "id",
-      "label": "User ID",
-      "maxLength": 20,
-      "required": true,
-      "type": "string",
-      "validate": "alphanumeric",
+  const stringInput = {
+    key: "id",
+    label: "User ID",
+  }
+
+  test('valid string', () => {
+    const result = validateInput('validstring', {
+      ...stringInput,
+      type: "string",
+      validate: "alphanumeric",
     })
     expect(result.isValid).toEqual(true)
+  })
+
+  test('required and filled', () => {
+    const result = validateInput('validstring', {
+      ...stringInput,
+      type: "string",
+      validate: "alphanumeric",
+      required: true,
+    })
+    expect(result.isValid).toEqual(true)
+  })
+
+  test('required but blank', () => {
+    const result = validateInput('', {
+      ...stringInput,
+      type: "string",
+      validate: "alphanumeric",
+      required: true,
+    })
+    expect(result.isValid).toEqual(false)
   })
 })

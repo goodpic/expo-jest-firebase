@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import { FormActionType, FormProps, FormStateType, InputType } from './types'
+import { validateInput } from './validateInput'
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
 
@@ -43,30 +44,12 @@ function defaultState(inputs: InputType[]): FormStateType {
   }
 }
 
-function validateInput(value: string | number | boolean, input: InputType): {
-  isValid: boolean
-  error: string
-  value: string | number | boolean
-} {
-  if (input.required && (value === '' || !value)) return {
-    isValid: false,
-    error: 'Required',
-    value,
-  }
-  return {
-    isValid: true,
-    error: '',
-    value,
-  }
-}
-
 const useFormState = (props: FormProps) => {
   const [formState, dispatchFormState]: [any, any]
     = useReducer<any>(formReducer, defaultState(props.inputs))
 
   const validateHandler = (text: string, input: InputType) => {
-    let isValid = false
-    console.log(input)
+    const { isValid } = validateInput(text, input)
     dispatchFormState({
       type: FORM_INPUT_UPDATE,
       value: text,
@@ -79,4 +62,4 @@ const useFormState = (props: FormProps) => {
   return [formState, validateHandler]
 }
 
-export { useFormState, validateInput }
+export { useFormState }

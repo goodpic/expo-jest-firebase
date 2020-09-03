@@ -1,5 +1,6 @@
 module.exports = {
-  "preset": "react-native",
+  "preset": "jest-expo",
+  // "preset": "react-native",
   // "projects": [
   //   { "preset": "jest-expo/node" }, // works
   //   { "preset": "jest-expo/ios"}    // error

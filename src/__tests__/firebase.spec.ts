@@ -9,12 +9,13 @@ describe('UseProduct', () => {
     }
   })
 
-  test('fetchProduct', async () => {
-    expect(true).toEqual(true)
+  test.skip('fetchProduct', async () => {
     try {
       const defaultAuth = firebase.auth()
+      expect(true).toEqual(true)
     } catch (e) {
-      console.log(e)
+      fail(new Error('Firebase Auth fail'))
+      // console.log(e)
     }
   }, 100000)
 })
