@@ -1,6 +1,8 @@
 type RootStackParamType = {
-  SignIn: {},
-  SignUp: {}
+  SignIn: {
+  },
+  SignUp: {
+  }
   Home: {},
 }
 

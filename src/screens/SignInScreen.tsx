@@ -1,15 +1,16 @@
 import * as React from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native'
-import { Text } from 'react-native'
+import { Button, Text } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ValidatedForm } from '../components/ValidatedForm'
 import { InputType } from '../components/ValidatedForm/types'
 import { RootStackParamType } from '../navigation/types'
+import { AuthConsumer } from '../context/AuthContext'
 
 type IProps = StackScreenProps<RootStackParamType, 'SignIn'>
 
 const SignInScreen = (props: IProps) => {
-  const { navigation } = props
+  const { route, navigation } = props
   const inputs: InputType[] = [
     {
       key: 'id',
@@ -29,19 +30,28 @@ const SignInScreen = (props: IProps) => {
     }
   ]
   return(
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text>Please Sign In</Text>
-      <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={50}>
-        <ValidatedForm
-          inputs={inputs}
+    <AuthConsumer>
+      {(authContext: any) => (
+        <ScrollView contentContainerStyle={styles.container}>
+        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={50}>
+          <ValidatedForm
+            inputs={inputs}
+          />
+        </KeyboardAvoidingView>
+        <Button
+          title="Sign In"
+          onPress={() => {
+            if (authContext && authContext.signIn) authContext.signIn()
+          }}
         />
-      </KeyboardAvoidingView>
-      <Text>Do not have an account?</Text>
-      <Text onPress={() => navigation.navigate({
-        name: 'SignUp',
-        params: {},
-      })}>Sign up</Text>
-    </ScrollView>
+        <Text>Do not have an account?</Text>
+        <Text onPress={() => navigation.navigate({
+          name: 'SignUp',
+          params: {},
+        })}>Sign up</Text>
+      </ScrollView>
+      )}
+    </AuthConsumer>
   )
 }
 

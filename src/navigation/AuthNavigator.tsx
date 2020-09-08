@@ -3,7 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { SignInScreen } from '../screens/SignInScreen'
 import { SignUpScreen } from '../screens/SignUpScreen'
 
-interface IProps {}
+interface IProps {
+  AuthContext: any
+}
 
 const AuthNavigator = (props: IProps) => {
   const Stack = createStackNavigator()
@@ -18,7 +20,7 @@ const AuthNavigator = (props: IProps) => {
         component={SignInScreen}
         options={{
           title: 'Please Sign in',
-          headerShown: false
+          headerShown: false,
         }}
       />
       <Stack.Screen

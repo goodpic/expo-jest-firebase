@@ -1,10 +1,14 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native'
+import { StackScreenProps } from '@react-navigation/stack'
 import { ValidatedForm } from '../components/ValidatedForm'
 import { InputType } from '../components/ValidatedForm/types'
+import { RootStackParamType } from '../navigation/types'
 
-const SignUpScreen = () => {
+type IProps = StackScreenProps<RootStackParamType, 'SignUp'>
+
+const SignUpScreen = (props: IProps) => {
   const inputs: InputType[] = [
     {
       key: 'id',
