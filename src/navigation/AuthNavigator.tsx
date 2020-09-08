@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { HomeScreen } from '../screens/HomeScreen'
+import { AuthScreen } from '../screens/AuthScreen'
 
 interface IProps {}
 
-const RootNavigator = (props: IProps) => {
+const AuthNavigator = (props: IProps) => {
   const Stack = createStackNavigator()
   return (
     <NavigationContainer>
@@ -15,12 +15,16 @@ const RootNavigator = (props: IProps) => {
         // }}
       >
         <Stack.Screen
-          name="Home"
-          component={HomeScreen}
+          name="Auth"
+          component={AuthScreen}
+          options={{
+            title: 'Please Sign-in',
+            headerShown: false
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
-export { RootNavigator }
+export { AuthNavigator }
