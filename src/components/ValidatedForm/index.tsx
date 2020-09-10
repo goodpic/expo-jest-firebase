@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { Button, KeyboardAvoidingView, View } from 'react-native'
 import { ValidatedInput } from './ValidatedInput'
 import { FormProps } from './types'
 import { useFormState } from './useFormState'
@@ -10,6 +10,7 @@ const ValidatedForm = (props: FormProps) => {
 
   return (
     <View>
+      <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={50}>
       {
         props.inputs.map((input) => (
           <ValidatedInput
@@ -20,6 +21,11 @@ const ValidatedForm = (props: FormProps) => {
           />
         ))
       }
+      </KeyboardAvoidingView>
+      <Button
+          title={props.submitButtonTitle}
+          onPress={() => props.onSubmit({})}
+        />
     </View>
   )
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { AuthProvider } from '../context/AuthContext'
+import { AuthProvider } from '../context/UseAuthContext'
 import { HomeScreen } from '../screens/HomeScreen'
 import { RootStackParamType } from './types/'
 import { AuthNavigator } from './AuthNavigator'

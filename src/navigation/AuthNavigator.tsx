@@ -4,7 +4,6 @@ import { SignInScreen } from '../screens/SignInScreen'
 import { SignUpScreen } from '../screens/SignUpScreen'
 
 interface IProps {
-  AuthContext: any
 }
 
 const AuthNavigator = (props: IProps) => {

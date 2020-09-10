@@ -1,28 +1,20 @@
 import * as React from 'react'
 import { createContext, useEffect, useMemo, useReducer } from 'react'
-import { AsyncStorage } from 'react-native'
+// import { AsyncStorage } from 'react-native'
 import * as firebase from 'firebase'
 import '@firebase/auth'
 import { firebaseConfig } from '../../config/firebase'
 
 const AuthContext = createContext({})
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+}
 
 const AuthProvider = (props: any) => {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
-  }
-  const defaultAuth = firebase.auth()
-
   const [state, dispatch] = useReducer(
     (prevState: any, action: any) => {
       console.log(action);
       switch (action.type) {
-        case 'RESTORE_TOKEN':
-          return {
-            ...prevState,
-            userToken: action.token,
-            isLoading: false,
-          }
         case 'SIGN_IN':
           return {
             ...prevState,
@@ -35,6 +27,13 @@ const AuthProvider = (props: any) => {
             isSignout: true,
             userToken: null,
           }
+        case 'SIGN_UP':
+          console.log('SIGN_UP reduced')
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: null,
+          }
       }
     },
     {
@@ -45,37 +44,52 @@ const AuthProvider = (props: any) => {
   )
 
   useEffect(() => {
+    console.log('UseAuthContext: useEffect');
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let userToken
-
-      try {
-        userToken = await AsyncStorage.getItem('userToken')
-      } catch (e) {
-        // Restoring token failed
-      }
+      // let userToken
+      // try {
+      //   userToken = await AsyncStorage.getItem('userToken')
+      // } catch (e) {
+      //   // Restoring token failed
+      // }
 
       // After restoring token, we may need to validate it in production apps
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken })
+      // dispatch({ type: 'RESTORE_TOKEN', token: userToken })
     }
-
     bootstrapAsync()
   }, [])
 
+  const defaultAuth = firebase.auth()
+
   const authContext = useMemo(
     () => ({
-      signIn: async (data: any) => {
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' })
+      signIn: async (email: string, password: string) => {
+        defaultAuth.signInWithEmailAndPassword(email, password)
+          .then((result: any) => {
+            dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' })
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
-      signUp: async (data: any) => {
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' })
+      signOut: () => {
+        dispatch({ type: 'SIGN_OUT' })
       },
-    }),
-    []
+      signUp: async (email: string, password: string) => {
+        defaultAuth.createUserWithEmailAndPassword(email, password)
+          .then((result: any) => {
+            dispatch({ type: 'SIGN_UP', token: 'dummy-auth-token' })
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+      },
+      getUser: () => defaultAuth.currentUser,
+    }), []
   )
   return (
     <AuthContext.Provider value={authContext}>

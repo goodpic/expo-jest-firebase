@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native'
-import { Button, Text } from 'react-native'
+import { Text } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { ValidatedForm } from '../components/ValidatedForm'
 import { InputType } from '../components/ValidatedForm/types'
 import { RootStackParamType } from '../navigation/types'
-import { AuthConsumer } from '../context/AuthContext'
+import { AuthConsumer } from '../context/UseAuthContext'
 
 type IProps = StackScreenProps<RootStackParamType, 'SignIn'>
 
@@ -29,18 +29,14 @@ const SignInScreen = (props: IProps) => {
       regex: '/^[a-zA-Z0-9_]+$/'
     }
   ]
-  return(
-    <AuthConsumer>
-      {(authContext: any) => (
-        <ScrollView contentContainerStyle={styles.container}>
-        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={50}>
-          <ValidatedForm
-            inputs={inputs}
-          />
-        </KeyboardAvoidingView>
-        <Button
-          title="Sign In"
-          onPress={() => {
+
+  function renderSignIn(authContext: any) {
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
+        <ValidatedForm
+          inputs={inputs}
+          submitButtonTitle='Sign In'
+          onSubmit={() => {
             if (authContext && authContext.signIn) authContext.signIn()
           }}
         />
@@ -50,7 +46,15 @@ const SignInScreen = (props: IProps) => {
           params: {},
         })}>Sign up</Text>
       </ScrollView>
-      )}
+    )
+  }
+
+  return(
+    <AuthConsumer>
+      {(authContext: any) => {
+        console.log(authContext.getUser())
+        return renderSignIn(authContext)
+      }}
     </AuthConsumer>
   )
 }

@@ -1,18 +1,26 @@
 import * as React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Button, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParamType } from '../navigation/types'
+import { AuthConsumer } from '../context/UseAuthContext'
 
 type IProps = StackScreenProps<RootStackParamType, 'Home'>
 
 const HomeScreen = (props: IProps) => {
-  console.log(props)
   return(
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <Text>Sign Out</Text>
-    </View>
+    <AuthConsumer>
+      {(authContext: any) => {
+        const user = authContext.getUser()
+        return (
+          <View style={styles.container}>
+            <Text>Hello</Text>
+            { user && <Text>{user.email}</Text> }
+            <Button title="Sign Out" onPress={authContext.signOut} />
+          </View>
+        )
+      }}
+    </AuthConsumer>
   )
 }
 
